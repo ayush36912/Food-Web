@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+.form-control label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-control input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #333;
+    border-radius: 3px;
+}
+
+.btn {
+    background-color: #333;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+  </style>
+
+    
+
+</head>
+
+<body>
+  
+  
+    <main style="text-align: center; margin-top: 100px;">
+        <h1>Add New Address</h1>
+        <form  action="/user/address" method="POST">
+                                            
+            <input type="hidden" value="<%= user._id %>" name="userId">
+            
+            <div class="form-control">
+                <label for="street">Street:-</label>
+                <input 
+                    type="text" 
+                    name="street" 
+                    id="street"
+                    pattern="^\S.*$" 
+                    style="width: 500px;" required>
+            </div>
+            <div class="form-control">
+                <label for="">Address_line:-</label>
+                <input 
+                    type="text" 
+                    name="address_line" 
+                    pattern="^\S.*$" 
+                    id="address_line"style="width: 500px;"required>
+            </div>
+            <div class="form-control">
+                <label for="">City:-</label>
+                <input 
+                    type="text" 
+                    name="city" 
+                    pattern="^\S.*$" 
+                    id="city"style="width: 500px;"required>
+            </div>
+            <div class="form-control">
+                <label for="">PIN Code:-</label>
+                <input 
+                    type="tel" 
+                    name="postalCode" 
+                    pattern="^\S.*$" 
+                    id="postalCode"style="width: 500px;"required>
+            </div>
+            <div class="form-control">
+                <label for="">Country_Name:-</label>
+                <input 
+                    type="text" 
+                    name="country"
+                    pattern="^\S.*$"  
+                    id="country"style="width: 500px;"required>
+            </div>
+        
+        
+            <button class="btn" type="submit">Add Address</button>
+            </form>
+    </main>
+<script>
+ window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload(true);
+        }
+    });
+document.addEventListener('DOMContentLoaded', function() {
+        var numberInput = document.getElementById('street');
+    
+        numberInput.addEventListener('input', function() {
+        var inputValue = this.value;
+        inputValue = inputValue.trimLeft();
+        inputValue = inputValue.slice(0, 20);
+        
+        // Update input value
+        this.value = inputValue;
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+        var numberInput = document.getElementById('address_line');
+    
+        numberInput.addEventListener('input', function() {
+        var inputValue = this.value;
+        inputValue = inputValue.trimLeft();
+        inputValue = inputValue.slice(0, 60);
+        
+        // Update input value
+        this.value = inputValue;
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+    var emailInput = document.getElementById('address_line');
+    
+    emailInput.addEventListener('input', function() {
+        var email = emailInput.value;
+        
+        if (/^\d/.test(email)) {
+
+            emailInput.value = '';
+        }
+    });})
+
+document.addEventListener('DOMContentLoaded', function() {
+        var numberInput = document.getElementById('city');
+    
+        numberInput.addEventListener('input', function() {
+        var inputValue = this.value;
+        inputValue = inputValue.trimLeft();
+        inputValue = inputValue.slice(0, 25);
+        
+        // Update input value
+        this.value = inputValue;
+    });
+});
+document.getElementById("city")
+        .addEventListener("keypress", function (event) {
+          var charCode = event.keyCode || event.which;
+          var charStr = String.fromCharCode(charCode);
+          if (!/[a-zA-Z\s]/.test(charStr)) {
+            event.preventDefault();
+          }
+        });
+document.addEventListener('DOMContentLoaded', function() {
+        var numberInput = document.getElementById('postalCode');
+    
+        numberInput.addEventListener('input', function() {
+        var inputValue = this.value;
+
+        inputValue = inputValue.replace(/\D/g, '');
+        inputValue = inputValue.slice(0, 7);
+        
+        // Update input value
+        this.value = inputValue;
+    });
+});
+document.addEventListener('DOMContentLoaded', function() {
+        var numberInput = document.getElementById('country');
+    
+        numberInput.addEventListener('input', function() {
+        var inputValue = this.value;
+        inputValue = inputValue.trimLeft();
+        inputValue = inputValue.slice(0, 15);
+        
+        // Update input value
+        this.value = inputValue;
+    });
+});
+
+document.getElementById("country")
+        .addEventListener("keypress", function (event) {
+          var charCode = event.keyCode || event.which;
+          var charStr = String.fromCharCode(charCode);
+          if (!/[a-zA-Z\s]/.test(charStr)) {
+            event.preventDefault();
+          }
+        });
+
+
+</script>
+</body>
+
+
+</html>

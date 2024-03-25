@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+   <style>
+    /* Reset default browser styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set body font and background color */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
+}
+.user-message{
+    color: red;
+}
+/* Main styling */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Form styling */
+.login-form {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.invalid {
+    border-color: #f00;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+/* User message styling */
+.user-message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.user-message--error {
+    background-color: #f00;
+    color: #fff;
+}
+
+   </style>
+</head>
+
+<body>
+
+
+    <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+            <br>
+        <% } %>
+        <form class="login-form" action="/admin/login" method="POST">
+            <div class="form-control">
+                <label for="email">E-Mail</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+                    type="email" 
+                    name="email" 
+                    pattern="^\S.*$" 
+                    id="email" 
+                    >
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
+                    type="password" 
+                    name="password"
+                    pattern="^\S.*$"  
+                    id="password" 
+                    >
+            </div>
+            
+            <button class="btn" type="submit">Login</button>
+        </form>
+    </main>
+
+</body>
+
+</html>

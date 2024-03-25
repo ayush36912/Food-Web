@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    </head>
+<style>
+    /* Reset some default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
+    border: 10px solid black;
+}
+
+/* Global styles */
+.main {
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 0 1rem;
+}
+
+/* Card styles */
+.card {
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+}
+
+.card__header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.card__image{
+    text-align: center;
+}
+.card__image img {
+    width: 509px;
+    height: 313px;
+}
+
+.card__content {
+    margin-bottom: 1rem;
+}
+
+.product__title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.product__price {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.product__description {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.product__dat {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card__actions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.card__actions a,
+.card__actions button {
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.card__actions a.btn {
+    background-color: #333;
+}
+
+.card__actions button.btn {
+    background-color: #dc3545;
+}
+
+.card__actions a.btn:hover,
+.card__actions button.btn:hover {
+    background-color: #555;
+}
+.btn2{
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-left: 50%;
+}
+
+.method2 {
+    margin-top: 1rem;
+}
+.table {
+    margin-top: 20px;
+}
+
+table {
+    margin-left: 350px;
+    width: 718px;
+    text-align: center;
+    border-collapse: separate;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+</style>
+    <body>
+  
+    <main>
+            <article class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        <%= product.title %>
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="/<%= product.image %>" alt="<%= product.title %>">
+                </div>
+                <div class="card__content">
+                    <h2 class="product__price">$
+                        <%= product.price %>
+                    </h2>
+                   
+                    <%
+                    
+                        const date=new Date(product.expireDate);
+                        const year=date.getFullYear();
+
+                        const month=(date.getMonth()+1).toString().padStart(2,'0');
+                        const day=date.getDate().toString().padStart(2,'0');
+                        const newDate=day+'-'+month+'-'+year;
+                    %>
+                    <p class="product__dat">
+                        Expire-Date:-<%= newDate %>
+                    </p>
+                    <p class="product__description">
+                       <b> Description:-</b><%= product.description %>
+                    </p>
+                </div>
+                <br>
+                <div class="card__actions">
+
+                    <a href="/admin/edit-product/<%= product._id %>?edit=true" class="btn">Edit</a>
+
+                    <form action="/admin/delete-product" method="POST">
+                        <input type="hidden" value="<%= product._id %>" name="productId">
+                        <button class="btn" type="submit">Delete</button>
+                    </form>
+            
+
+                </div>
+                
+                <br>
+                <div class="table">
+                    <%if(product.category.length>0){%>
+                    <table>
+                        <tr>
+                            <th>Category-Name</th>
+                            <th>Action</th>
+                        </tr>
+                        
+                        <% product.category.forEach(category => { %>
+                        <tr>
+
+                            <td> <%= category.name %></td>
+                            <td>
+                                <form action="/admin/products/remove-category" method="POST">
+                                    <input type="hidden" value="<%= product._id %>" name="productId">
+                                    <input type="hidden" value="<%= category._id %>" name="categoryId">
+                                    <button type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </table>
+                    <% } else{ %>
+                        <h3 style="text-align: center;">No Category in this Product</h3>
+                    <%}%>
+                </div>
+                <br>
+               
+            </article>
+                    
+                    
+           
+            
+                
+    </main> 
+    <script>
+        window.addEventListener('pageshow', function(event) {
+             if (event.persisted) {
+                 location.reload(true);
+             }
+         });
+     </script>
+    </body>
+        
+</html>

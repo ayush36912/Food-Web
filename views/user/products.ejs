@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    <style>
+        /* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #000;
+}
+
+
+.main-header {
+    background-color: #333;
+    padding: 20px;
+}
+
+.main-header__nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-header__item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.main-header__item {
+    display: inline;
+}
+
+.main-header__item a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+.main-header__item a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+main {
+    padding: 20px;
+}
+
+
+.Class1,
+.Class2,
+.Class3 {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 2rem;
+}
+form {
+    margin-bottom: 1rem;
+    margin-top: 56px;
+    text-align: center;
+}
+
+label {
+    margin-right: 0.5rem;
+}
+
+select {
+    margin-right: 0.5rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    background-color: red;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:active {
+    background-color: #666;
+}
+
+    </style>
+    </head>
+
+    <body>
+        
+<header class="main-header">
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="Class1" href="/user/profile">My Profile</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class1" href="/user/get-all-prods/all-prods">Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class2" href="/user/get-all-prods">Cat-Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/user/getcart">my Cart</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/user/my-orders">Orders</a>
+            </li>
+            <li class="main-header__item">
+                <form class="main-header__item"action="/user/logout" method="post">
+                    <button class="main-header__item"type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+           <main>
+                <div>
+                    <form action="/user/get-all-prods/get-cat-prods" method="GET">
+
+                        <label for="category">Select Category</label>
+                        <select name="category">
+                        <% category.forEach(cat => { %>
+                            <option value="<%= cat._id %>"><%= cat.name %></option>
+                        <% }); %>
+                        </select>
+                        <button type="submit">Get Products</button>
+                    </form>
+                </div>
+           </main>  
+           <script>
+             window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload(true);
+        }
+    });
+           </script>
+        </body>
+        
+</html>

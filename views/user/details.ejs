@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    </head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.card__header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+}
+
+.card__image {
+    text-align: center;
+}
+
+.card__image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card__content {
+    padding: 10px;
+}
+
+.product__price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.product__description {
+    color: #666;
+}
+
+.product__dat {
+    color: #666;
+}
+
+.card__actions {
+background-color: red;
+color: wheat;
+    text-align: center;
+    padding: 10px;
+    width: 33px;
+    margin-left: 370px;
+    
+}
+.link{
+    color: white;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    
+}
+.link2{
+    margin-left: 350px;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+</style>
+
+    <body>
+            <main>
+
+            <article class="card product-item">
+                <header class="card__header">
+                    <h1 class="product__title">
+                        <%= product.title %>
+                    </h1>
+                </header>
+                <div class="card__image">
+                    <img src="/<%= product.image %>" alt="<%= product.title %>">
+                </div>
+                <div class="card__content">
+                    <h2 class="product__price">$
+                        <%= product.price %>
+                    </h2>
+                    <p class="product__description">
+                        <%= product.description %>
+                    </p>
+                    <p class="product__dat">
+                        <%= product.expireDate %>
+                    </p>
+                </div>
+                <div>
+                    <p>Category:
+                        <% product.category.forEach(category => { %>
+                        <%= category.name %>
+                        <% }); %>
+                    </p>
+                </div>
+                
+                <div class="card__actions">
+                    
+                    <a class="link"href="<%=previousPage%>">Back</a>
+
+                </div>
+            </article>
+                            
+                            
+                          
+                    </div>
+                    
+                    
+            </main> 
+            <script>
+                 window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload(true);
+        }
+    });
+            </script>    
+    </body>
+        
+</html>

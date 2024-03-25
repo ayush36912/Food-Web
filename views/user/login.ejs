@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+.user-message{
+    color: red;
+}
+main {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="password"],
+button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.invalid {
+    border-color: #dc3545;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #333;
+}
+
+  </style>
+</head>
+
+<body>
+
+
+    <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+        <form class="login-form" action="/user/login" method="POST">
+            <div class="form-control">
+                <label for="email">E-Mail</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    pattern="^\S.*$" 
+                    >
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    pattern="^\S.*$" 
+                    >
+            </div>
+            
+            <button class="btn" type="submit">Login</button>
+        </form>
+    </main>
+
+</body>
+
+</html>

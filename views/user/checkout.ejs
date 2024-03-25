@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    <style>
+        
+    body {
+        color: black;
+        background-color: white;
+    }
+
+    /* Define styles for the table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: black;
+    }
+
+    /* Define styles for the main header and navigation */
+    body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 960px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.main-header {
+    background: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.main-header__nav {
+    display: flex;
+    justify-content: center;
+}
+
+.main-header__item-list {
+    list-style-type: none;
+    display: flex;
+}
+
+.main-header__item {
+    margin-right: 1rem;
+}
+
+.main-header__item:last-child {
+    margin-right: 0;
+}
+
+.main-header__item a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.main-header__item a:hover {
+    text-decoration: underline;
+}
+
+/* Main content styles */
+main {
+    padding: 1rem;
+}
+
+    /* Define styles for buttons */
+    button {
+        background-color: red;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #333;
+    }
+
+    /* Define styles for form elements */
+    form {
+        margin-top: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    .price {
+        margin-top: 20px;
+    }
+</style>
+
+    </style>
+</head>
+
+
+    <body>
+  
+            <header class="main-header">
+                <header class="main-header">
+                    <nav class="main-header__nav">
+                        <ul class="main-header__item-list">
+                            <li class="main-header__item">
+                                <a class="Class1" href="/user/profile">My Profile</a>
+                            </li>
+                            <li class="main-header__item">
+                                <a class="Class1" href="/user/get-all-prods/all-prods">Products</a>
+                            </li>
+                            <li class="main-header__item">
+                                <a class="Class2" href="/user/get-all-prods">Cat-Products</a>
+                            </li>
+                            <li class="main-header__item">
+                                <a class="Class3" href="/user/getcart">my Cart</a>
+                            </li>
+                        <li class="main-header__item">
+                            <a class="Class3" href="/user/my-orders">Orders</a>
+                        </li>
+                            <li class="main-header__item">
+                                <form class="main-header__item" action="/user/logout" method="post">
+                                    <button class="main-header__item" type="submit">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </nav>
+            </header>
+
+           
+           <form href="/user/checkout" method="POST">
+                <main>
+                    <table class="table">
+                        <tr>
+                            <th>Product-Title</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                        
+                        <input type="hidden" value='<%= JSON.stringify(cart) %>' name="cartItems">
+
+                        <%cart.forEach(item=>{%>
+                            <tr>
+                
+                                <td name="title"><%= item.product.title %></td>
+                                <td name="quantity"><%= item.quantity %></td>
+                                <td name="price"><%= item.product.price %></td>
+                            </tr>
+                    
+                        <%})%>
+                        </table>
+                    <br>
+                    <div>
+                        <label for="address">Select Address for Delivery:</label>
+                        <% if(user.address.length>0){%>
+            
+                            <select name="address">
+                            <% user.address.forEach(add => { %>
+                                <option value="<%= add._id %>"><%= add.street %>,<%= add.address_line %>,<%= add.city %>,<%= add.postalCode %>,<%= add.country %></option>
+                            <% }); %>
+                            </select>
+                            <br>
+                            <a href="/user/address/<%=user._id%>">Add New Address</a>
+                            <input type="hidden" name="onCheckout">
+                            
+
+                        <%}else{%>
+                            <a href="/user/address/<%=user._id%>">Add New Address</a>
+                        <%}%>
+                            
+                       
+                        
+                        
+                    </div>
+                        
+
+                    <div class="price">
+                        <h3>Total Amount:-<%= total%></h3>
+                        <input type="hidden" value="<%= total%>" name="total">
+                        
+                    </div>
+                </main>
+               <button type="submit">ship the order</button>
+           </form>
+            
+           <script>
+                window.addEventListener('pageshow', function(event) {
+                    if (event.persisted) {
+                        location.reload(true);
+                    }
+                    });
+           </script>
+    </body>
+        
+</html>

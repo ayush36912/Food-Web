@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    <style>
+      /* Header styling */
+   
+.main-header {
+    background-color: #333;
+    padding: 20px;
+}
+
+.main-header__nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-header__item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.main-header__item {
+    display: inline;
+}
+
+.main-header__item a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+.main-header__item a:hover {
+    background-color: #ddd;
+    color: black;
+}
+        /* Reset default browser styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type="file"] {
+  margin-top: 5px;
+}
+
+.invalid {
+  border-color: red;
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.user-message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.user-message--error {
+  background-color: #ffcccc;
+  color: #cc0000;
+}
+
+    </style>
+</head>
+
+<body>
+  <header class="main-header">
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="Class1" href="/admin/add-product">Add Product</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class2" href="/admin/add-category">Manage Category</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/admin/get-all-products">Admin Products</a>
+            </li>
+            <li class="main-header__item">
+              <a class="Class3" href="/admin/all-user">User details</a>
+          </li>
+            <li class="main-header__item">
+              <form class="main-header__item"action="/admin/logout" method="post">
+                  
+                  <button class="main-header__item"type="submit">Logout</button>
+              </form>
+          </li>
+        </ul>
+    </nav>
+</header>
+    <main>
+        <form class="product-form" action="/admin/edit-product" method="POST" enctype="multipart/form-data">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input 
+                    type="text" 
+                    name="title" 
+                    id="title" 
+                    pattern="^\S.*$" 
+                    value="<% if (editing || hasError) { %><%= product.title %><% } %>" required>
+                    <% if(validationErrors.length > 0) {%>
+                      <% if(validationErrors.find((e)=> e.path === "title")) { %>
+                        <span style="color: red;"><%= validationErrors.find((e)=> e.path === "title").msg %></span>
+                        <% } %><% } %>
+
+            </div>
+  
+            <div class="form-control">
+                <label for="image">Image</label>
+                <input 
+                    type="file" 
+                    name="image" 
+                    accept='image/*'
+                    id="image" required>
+                    <% if(validationErrors.length > 0) {%>
+                      <% if(validationErrors.find((e)=> e.path === "image")) { %>
+                        <span style="color: red;"><%= validationErrors.find((e)=> e.path === "image").msg %></span>
+                        <% } %><% } %>
+  
+            </div>
+            <div class="form-control">
+                <label for="price">Price</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'price') ? 'invalid' : '' %>"
+                    type="number" 
+                    name="price"
+                    pattern="^\S.*$"  
+                    id="price"  
+                    value="<% if (editing || hasError) { %><%= product.price %><% } %>"required>
+                    <% if(validationErrors.length > 0) {%>
+                      <% if(validationErrors.find((e)=> e.path === "price")) { %>
+                        <span style="color: red;"><%= validationErrors.find((e)=> e.path === "price").msg %></span>
+                        <% } %><% } %>
+            </div>
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea 
+                    class="<%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>"
+                    name="description" 
+                    id="description" 
+                    pattern="^\S.*$" 
+                    rows="5"required><% if (editing || hasError) { %><%= product.description %><% } %></textarea>
+                    <% if(validationErrors.length > 0) {%>
+                      <% if(validationErrors.find((e)=> e.path === "description")) { %>
+                        <span style="color: red;"><%= validationErrors.find((e)=> e.path === "description").msg %></span>
+                        <% } %><% } %>
+            </div>
+            <div class="form-control">
+                <label for="exprireDate">Expire-Date</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'exprireDate') ? 'invalid' : '' %>"
+                    type="date" 
+                    name="expireDate" 
+                    id="exprireDate"
+                    pattern="^\S.*$" 
+                    value="<% if (editing || hasError) { %><%= expireDate %><% } %>"
+                    min="<%= new Date().toISOString().split('T')[0] %>"
+                    max="<%= new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0] %>"required >
+                    
+            </div>
+          <div class="form-control">
+            Add Category:-
+            
+            <% OldC.forEach(cat => { %>
+              <%= cat.name %>
+              <input
+                    type="checkbox" 
+                    name="category" 
+                    value="<%= cat._id %>" checked>
+            <% }); %>
+
+            <% RestC.forEach(cat => { %>
+              <%= cat.name %>
+              <input
+                    type="checkbox" 
+                    name="category"
+                    value="<%=cat._id%>" >
+            <% }); %>
+
+        </div>
+            <% if (editing) { %>
+                <input type="hidden" value="<%= product._id %>" name="productId">
+            <% } %>
+            
+            <button class="btn" type="submit">Update Product</button>
+        </form>
+    </main>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+      var numberInput = document.getElementById('price');
+  
+      numberInput.addEventListener('input', function() {
+      var inputValue = this.value;
+      
+      // Remove non-numeric characters
+      inputValue = inputValue.replace(/\D/g, '');
+      
+      // Limit to 3 digits
+      inputValue = inputValue.slice(0, 5);
+      
+      // Update input value
+      this.value = inputValue;
+  });
+});
+document.addEventListener('DOMContentLoaded', function() {
+  var textInput = document.getElementById('title');
+
+  textInput.addEventListener('input', function() {
+      var inputValue = this.value;
+
+      // Limit to 20 characters
+      inputValue = inputValue.trimLeft();
+      inputValue = inputValue.slice(0, 35);
+
+      // Update input value
+      this.value = inputValue;
+  });
+});
+document.addEventListener('DOMContentLoaded', function() {
+  var textInput = document.getElementById('description');
+
+  textInput.addEventListener('input', function() {
+      var inputValue = this.value;
+
+      // Limit to 20 characters
+      inputValue = inputValue.trimLeft();
+      inputValue = inputValue.slice(0, 200);
+
+      // Update input value
+      this.value = inputValue;
+  });
+});
+document
+    .getElementById("title")
+    .addEventListener("keypress", function (event) {
+      var charCode = event.keyCode || event.which;
+      var charStr = String.fromCharCode(charCode);
+      if (!/[a-zA-Z\s]/.test(charStr)) {
+        event.preventDefault();
+      }
+    });
+    
+   window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload(true);
+        }
+    });
+
+
+ 
+
+  </script>
+  </body>
+
+</html>

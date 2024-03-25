@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+
+.main-header {
+    background-color: #333;
+    padding: 20px;
+}
+
+.main-header__nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-header__item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.main-header__item {
+    display: inline;
+}
+
+.main-header__item a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+.main-header__item a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+main {
+    padding: 20px;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.btn {
+    background-color: #333;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+.links{
+    text-align: center;
+}
+.links {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 485px;
+    margin: 0 auto;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.link {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+input{
+    text-align: center;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="backdrop"></div>
+<header class="main-header">
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="Class1" href="/user/profile">My Profile</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class1" href="/user/get-all-prods/all-prods">Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class2" href="/user/get-all-prods">Cat-Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/user/getcart">my Cart</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/user/my-orders">Orders</a>
+            </li>
+            <li class="main-header__item">
+                <form class="main-header__item"action="/user/logout" method="post">
+                    <button class="main-header__item"type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<div class="links">
+    <h1>My Profile</h1>
+    <br>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= user.name %>" readonly>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<%= user.email %>" readonly>
+        <br>
+        <label for="countryCode">Country Code:</label>
+        <input type="text" id="countryCode" name="countryCode" value="<%= user.countryCode %>" readonly>
+        <br>
+        <label for="phoneNo">Phone Number:</label>
+        <input type="text" id="phoneNo" name="phoneNo" value="<%= user.phoneNo %>" readonly>
+        <br>
+        <br>
+        <br>
+
+        <a class="link" href="/user/edit-profile/<%=user._id%>">Edit-Profile</a>
+        <br>
+        <br>
+        <br>
+        <br>
+        <% if(user.address.length > 0){ %>
+        <table>
+            <tr>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+            <% user.address.forEach(address => { %>
+            <tr>
+                <td><p><%= address.street %>, <%= address.address_line %>, <%= address.city %>, <%= address.postalCode %>, <%= address.country %></p></td>
+                <td> 
+                    <form action="/user/postDeleteAddress" method="POST">
+                        
+                        <input type="hidden" name="addressId" value="<%=address._id%>">
+                        <button type="submit">remove</button>
+                        
+                    </form>
+                </td>
+                
+            </tr>
+            <% }); %>
+        
+           
+        </table>
+        
+        <% } else { %>
+            <h5>No Address</h5>
+        <% } %>
+        <br>
+    </form>
+    <br>
+    <a href="/user/address/<%=user._id %>" class="link">Add Address</a>
+</div>
+
+<script>
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload(true);
+        }
+    });
+</script>  
+</body>
+
+</html>

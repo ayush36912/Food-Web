@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+  
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.main-header {
+    background-color: #333;
+    padding: 20px;
+}
+
+.main-header__nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-header__item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.main-header__item {
+    display: inline;
+}
+
+.main-header__item a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+.main-header__item a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+main {
+    padding: 20px;
+}
+.product-item {
+    background-color: #f4f4f4;
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product__title {
+    margin: 0;
+}
+
+.product__price {
+    margin: 0;
+    justify-content: center;
+}
+.card__content2{
+    margin: 0;
+    justify-content: center;
+    color: wheat;
+}
+
+
+.hello {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls h3 {
+    margin: 0 10px;
+}
+.card__image {
+    height: 150px;
+    overflow: hidden;
+}
+
+.card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    justify-items: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.quantity-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-controls form {
+    margin: 0 15px;
+}
+
+.quantity-controls input[type="number"] {
+    width: 50px;
+    text-align: center;
+}
+
+.quantity-controls button {
+    padding: 5px 10px;
+    margin: 5px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+.quantity-controls button.btnn {
+    background-color: red; /* Adjust color as needed */
+}
+
+.quantity-controls button:hover {
+    background-color: #555;
+}
+.cart{
+    
+        text-align: center;
+        color: white;
+    
+}
+</style>
+</head>
+
+
+    <body>
+  
+            <header class="main-header">
+                <header class="main-header">
+                    <nav class="main-header__nav">
+                        <ul class="main-header__item-list">
+                            <li class="main-header__item">
+                                <a class="Class1" href="/user/profile">My Profile</a>
+                            </li>
+                            <li class="main-header__item">
+                                <a class="Class1" href="/user/get-all-prods/all-prods">Products</a>
+                            </li>
+                            <li class="main-header__item">
+                                <a class="Class2" href="/user/get-all-prods">Cat-Products</a>
+                            </li>
+                            <li class="main-header__item">
+                                <a class="Class3" href="/user/getcart">my Cart</a>
+                            </li>
+                            <li class="main-header__item">
+                                <a class="Class3" href="/user/my-orders">Orders</a>
+                            </li>
+                            <li class="main-header__item">
+                                <form class="main-header__item" action="/user/logout" method="post">
+                                    <button type="submit">Logout</button>
+                                </form>
+                            </li>
+                            
+                        </ul>
+                    </nav>
+            </header>
+
+           
+            <main>
+                
+                <% if(cart.length>0){%>
+
+                    <%cart.forEach(item=>{%>
+                    <article class="card product-item">
+                        <header class="card__header">
+                            <h1 class="product__title">
+                                <%= item.product.title %>
+                            </h1>
+                        </header>
+                        <div class="card__image">
+                            <img src="/<%= item.product.image %>" alt="<%= item.product.title %>">
+                        </div>
+                        <div class="card__content">
+                            <h2 class="product__price">$
+                                <%= item.product.price %>
+                            </h2>
+                        </div>
+                        <p>Quantity:</p>
+                        <div class="hello">
+                            <div class="quantity-controls">
+                                <form action="/user/minus" method="POST">
+                                    <input type="hidden" value="<%= item.product._id %>" name="productId">
+                                    <button class="btn" type="submit">-</button>
+                                </form>
+                                <form action="/user/update" method="POST">
+                                    <input type="number" style="width: 75px;height: 20px;" value="<%= item.quantity %>" id="quantity" name="quantity"min="1" max="10000" required>
+                                    <input type="hidden" value="<%= item.product._id %>" name="productId">
+                                    <br>
+                                    <button class="btnn" type="submit">update</button>
+                                </form>
+                                <form action="/user/plus" method="POST">
+                                    <input type="hidden" value="<%= item.product._id %>" name="productId">
+                                    <button class="btn" type="submit">+</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <form action="/user/details" method="GET">
+                                <input type="hidden" value="<%= item.product._id %>" name="productId">
+                                <button class="btn" type="submit">Details</button>
+                            </form>
+                        </div>
+                      
+
+                        
+                        <div class="card__actions">
+
+                            <form action="/user/removefromcart" method="POST">
+                                <input type="hidden" value="<%= item.product._id %>" name="productId">
+                                <button class="btn" type="submit">Remove from Cart</button>
+                            </form>
+
+                            
+                        </div>
+                    </article>
+                   
+                <%})%>
+            </main>
+            <div class="card__content2">
+                <h2 class="product__price">
+                    Total-Price:-
+                    <%= total %>
+                </h2>
+
+                <form action="/user/checkout" method="GET">
+                
+                    <button class="btn" type="submit">Checkout</button>
+                </form>
+            </div>
+
+            <%}else{%>
+                <h1 class="cart">Cart is empty</h1>
+                <%}%>
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+        var numberInput = document.getElementById('quantity');
+        numberInput.addEventListener('input', function() {
+        var inputValue = numberInput.value;
+        inputValue = inputValue.slice(0, 5);
+        numberInput.value = inputValue;
+         });
+        });
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                location.reload(true);
+            }
+        });
+       
+    
+        </script>
+    </body>
+
+        
+</html>

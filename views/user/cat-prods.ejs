@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    </head>
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+.main-header {
+    background-color: #333;
+    padding: 20px;
+}
+
+.main-header__nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-header__item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.main-header__item {
+    display: inline;
+}
+
+.main-header__item a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+.main-header__item a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+main {
+    padding: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+
+    gap: 20px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card__header {
+    margin-bottom: 10px;
+}
+
+.card__image {
+    height: 204px;
+    overflow: hidden;
+}
+
+.card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.card__content {
+    margin-bottom: 10px;
+}
+
+.card__actions {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card__actions2 {
+    text-align: center;
+    display: flex;
+    margin-left: 100px;
+    background-color: #333;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 30px;
+}
+
+
+.btn {
+    background-color: #333;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 30px;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+.pagination{
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+ 
+.pagination a{
+  text-decoration: none;
+  color: #040069;
+  padding: 0.5rem;
+  border: 1px solid #00695c;
+  margin: 0 1rem;
+}
+ 
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active{
+  background: #0062cc;
+  color: white;
+}
+    </style>
+
+    <body>
+        <div class="backdrop"></div>
+<header class="main-header">
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="Class1" href="/user/profile">My Profile</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class1" href="/user/get-all-prods/all-prods">Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class2" href="/user/get-all-prods">Cat-Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/user/getcart">my Cart</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/user/my-orders">Orders</a>
+            </li>
+            <li class="main-header__item">
+                <form class="main-header__item"action="/user/logout" method="post">
+                    <button class="main-header__item"type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+            <main>
+                <% if (prods.length > 0) { %>
+                    <div class="grid">
+                        <% for (let product of prods) { %>
+                            <article class="card product-item">
+                                <header class="card__header">
+                                    <h1 class="product__title">
+                                        <%= product.title %>
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="/<%= product.image %>" alt="<%= product.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <h2 class="product__price">
+                                        Price:-$<%= product.price %>
+                                    </h2>
+                                    <%
+                                    
+                                    const date=new Date(product.expireDate);
+                                    const year=date.getFullYear();
+
+                                    const month=(date.getMonth()+1).toString().padStart(2,'0');
+                                    const day=date.getDate().toString().padStart(2,'0');
+                                    const newDate=day+'-'+month+'-'+year;
+                                %>
+                                    <p class="product__dat">
+                                        Expire-Date:-<%= newDate %>
+                                    </p>
+                                </div>
+                                <div>
+                                    <p>Category:
+                                        <% product.category.forEach(category => { %>
+                                          <%= category.name %>
+                                        <% }); %>
+                                      </p>
+                                </div>
+                                <div class="card__actions">
+
+
+
+                                    <%if(cart.items.some(item => item.product._id.toString() === product._id.toString())){%>
+            
+                                    
+                                        <form action="/user/minus" method="POST">
+                                            <input type="hidden" value="<%= product._id %>" name="productId">
+                                            <button class="btn" type="submit">-</button>
+                                        </form>
+                                        <form action="/user/update" method="POST">
+                                            <% const cartItem = cart.items.find(item => item.product._id.toString() === product._id.toString()); %>
+                                            <input style="margin-top: 25px;" type="number" value="<%=cartItem.quantity  %>" id="quantity" name="quantity" min="1" max="10000" required>
+                                            <input type="hidden" value="<%= product._id %>" name="productId">
+                                            <button style="margin-top: 5px;" class="btnn" type="submit">update</button>
+                                        </form>
+                                        <form action="/user/plus" method="POST">
+                                            <input type="hidden" value="<%= product._id %>" name="productId">
+                                            <button class="btn" type="submit">+</button>
+                                        </form>
+                                        <form class="link2" action="/user/details" method="GET">
+                                            <input type="hidden" value="<%= product._id %>" name="productId">
+                                            <button class="card__actions2" type="submit">Details</button>
+                                        </form>
+                                       
+                                   
+                                <%}else{%>
+                                    <form  action="/user/addtocart" method="POST">
+                                        <input  type="hidden" value="<%= product._id %>" name="productId">
+                                        <input type="hidden" value="<%= user._id %>" name="userId">
+                                        <button class="btn" type="submit">add to Cart</button>
+                                    </form>
+                                    <form class="link2" action="/user/details" method="GET">
+                                        <input type="hidden" value="<%= product._id %>" name="productId">
+                                        <button class="card__actions2" type="submit">Details</button>
+                                    </form>
+                                    
+
+                                    <%}%>
+                                
+                                </div>
+                               
+                                
+
+                            </article>
+                            
+                            
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <h1>No Products Found!</h1>
+                        <% } %>
+                       
+            </main>  
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+        var numberInput = document.getElementById('quantity');
+        numberInput.addEventListener('input', function() {
+        var inputValue = numberInput.value;
+        inputValue = inputValue.slice(0, 5);
+        numberInput.value = inputValue;
+         });
+        });
+                window.addEventListener('pageshow', function(event) {
+                    if (event.persisted) {
+                        location.reload(true);
+                    }
+                });
+            </script>   
+    </body>
+        
+</html>

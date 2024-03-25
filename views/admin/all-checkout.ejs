@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+ <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #000;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+    width: 80px;
+}
+
+th {
+    background-color: black;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.main {
+    margin: 20px;
+}
+
+.link {
+    background-color: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.link:hover {
+    background-color: #a93226;
+}
+
+ </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Order List</h1>
+        <main>
+            <div>
+                    <%if(checkout.length>0){%>
+                    <% checkout.forEach(checkout=> { %>
+
+
+                        <table>
+                            <tr>
+                                <th>Title</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+
+                            <% checkout.products.forEach(product=> { %>
+                                <tr> 
+                                    <td><%=product.title %></td>
+                                    <td><%=product.quantity%></td>
+                                    <td><%=product.price%></td>
+                                </tr>
+                            <%})%>
+                        </table>
+                        <div>
+                            <h3>Total Price:-<%=checkout.total%></h3>
+                        </div>
+                        <div><%
+                            const date=new Date(checkout.updatedAt);
+                            const year=date.getFullYear();
+                          
+                            const month=(date.getMonth()+1).toString().padStart(2,'0');
+                            const day=date.getDate().toString().padStart(2,'0');
+                            const newDate=day+'-'+month+'-'+year;
+                          %>
+                            <h3>Order Date:- <%=newDate%></h3>
+                        </div>
+                        <div>
+                           <p><b>Delivery Address:-</b><%=checkout.address[0].street%>,<%=checkout.address[0].address_line%>,<%=checkout.address[0].city%>,<%=checkout.address[0].postalCode%>,<%=checkout.address[0].country%></p>
+                        </div>
+                        <h1>----------------------------------------------------------------------------------------------------------------------------------------</h1>
+                    
+                    <%})%>
+                    <%}else{%>
+                        <h1>no orders found </h1>
+                    <%}%>
+              
+            </div>
+            <form action="/admin/all-user" method="GET">
+                <button class="link" type="submit">Back</button>
+            </form>
+            
+        </main>
+        <script>
+            window.addEventListener('pageshow', function(event) {
+                 if (event.persisted) {
+                     location.reload(true);
+                 }
+             });
+         </script>
+    
+    </body>
+</html>

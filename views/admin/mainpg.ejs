@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+   <style>/* Reset default browser styles */
+    body, h1, h2, h3, p, ul, li {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+    
+    /* Set body font and background color */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+    }
+    
+    /* Header styling */
+    .main-header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        text-align: center;
+    }
+    
+    /* Navigation styling */
+    .main-header__nav {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .main-header__item-list {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    .main-header__item {
+        margin-right: 20px;
+    }
+    
+    .main-header__item:last-child {
+        margin-right: 0;
+    }
+    
+    /* Link styling */
+    .Class1, .Class2, .Class3, .Class4 {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .Class1:hover, .Class2:hover, .Class3:hover, .Class4:hover {
+        background-color: #555;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .main-header__nav {
+            flex-direction: column;
+        }
+    
+        .main-header__item {
+            margin-bottom: 10px;
+        }
+    
+        .main-header__item:last-child {
+            margin-bottom: 0;
+        }
+    }
+    img{
+        height:770px;
+        width: 1630px;
+    }
+ 
+/* styles.css */
+
+/* Styling for the title */
+h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Choose a suitable font */
+    font-size: 32px; /* Adjust the font size as needed */
+    color: black; /* Choose a color for the text */
+    text-align: center; /* Center-align the text */ /* Add some top margin for spacing */
+    background-color: red;
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <h1><i><b>---------->Foodie Club<----------</b></i></h1>
+
+    <header class="main-header">
+        <nav class="main-header__nav">
+            <ul class="main-header__item-list">
+                <li class="main-header__item">
+                    <a class="Class1" href="/admin/login">Admin</a>
+                </li>
+                <li class="main-header__item">
+                    <a class="Class3" href="/user/login">User</a>
+                </li>
+                <li class="main-header__item">
+                    <a class="Class4" href="/user/signup">New User</a>
+                </li>
+                
+                
+            </ul>
+            
+        </nav>
+    </header>
+    <div>
+        <img src="https://wallpaperaccess.com/full/4883236.jpg" alt="Image">
+    </div>
+    <script>
+        window.addEventListener('pageshow', function(event) {
+             if (event.persisted) {
+                 location.reload(true);
+             }
+         });
+     </script>
+</body>
+
+</html>

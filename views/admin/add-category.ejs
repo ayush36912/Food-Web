@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    <style>
+      /* Reset default browser styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+  
+.main-header {
+    background-color: #333;
+    padding: 20px;
+}
+
+.main-header__nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.main-header__item-list {
+    list-style: none;
+    padding: 0;
+}
+
+.main-header__item {
+    display: inline;
+}
+
+.main-header__item a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: inline-block;
+}
+
+.main-header__item a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+main {
+    padding: 20px;
+}
+      body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  form {
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+    </style>
+</head>
+
+<body>
+  <div class="backdrop"></div>
+<header class="main-header">
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="Class1" href="/admin/add-product">Add Product</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class2" href="/admin/add-category">Manage Category</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/admin/get-all-products">Admin Products</a>
+            </li>
+            <li class="main-header__item">
+                <a class="Class3" href="/admin/all-user">User details</a>
+            </li>
+            <li class="main-header__item">
+                <form class="main-header__item"action="/admin/logout" method="post">
+                    <button class="main-header__item"type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<div class="error">
+  <% if(errorMessage){%>
+      <div><% errorMessage.text %></div>
+     <%}%> 
+</div>
+    <form action="/admin/products/add-category" method="POST">
+        <label for="category">Select Category to Add:</label>
+        <select name="category">
+          <% category.forEach(cat => { %>
+            <option value="<%= cat._id %>"><%= cat.name %></option>
+          <% }); %>
+        </select>
+        
+        <input type="hidden" value="<%= product._id %>" name="productId">
+        <button type="submit">Add Category</button>
+      </form>
+      <script>
+        window.addEventListener('pageshow', function(event) {
+             if (event.persisted) {
+                 location.reload(true);
+             }
+         });
+     </script>
+</body>
+
+</html>

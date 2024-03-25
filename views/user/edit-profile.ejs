@@ -1,0 +1,277 @@
+
+</head><!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= pageTitle %></title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+#emailError{
+    color: red;
+}
+main {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.invalid {
+    border-color: #dc3545;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #333;
+}
+.user-message{
+    color: #dc3545;
+}
+
+
+    </style>
+
+</head>  
+    <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+        <form class="login-form" action="/user/edit-profile" method="POST">
+            <div class="form-control">
+                <label for="confirmPassword">User Name</label>
+                <br>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'name') ? 'invalid' : '' %>"
+                    type="text" 
+                    name="name" 
+                    id="name"
+                    style="height: 40px; width: 400px;"
+                    value="<%=user.name%>"required>
+                    
+            </div>
+            <div class="form-control">
+                <label for="email">E-Mail</label>
+                <br>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+                    type="email" 
+                    name="email" 
+                    id="email"
+                    style="height: 40px; width: 400px;" 
+                    value="<%=user.email%>"readonly>
+                    <br>
+                    <span id="emailError" class="error"></span>
+            </div>
+            <div class="form-control">
+                <label for="countryCode">Country Code</label>
+                <br>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'countryCode') ? 'invalid' : '' %>"
+                    type="tel" 
+                    name="countryCode" 
+                    id="countryCode"
+                    style="height: 40px; width: 400px;"
+                    value="<%=user.countryCode%>"required>
+            </div>
+            <br>
+            <div class="form-control">
+                <label for="phoneNo">Phone Number</label>
+                <br>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'phoneNo') ? 'invalid' : '' %>"
+                    type="tel" 
+                    name="phoneNo" 
+                    id="phoneNo" 
+                    style="height: 40px; width: 400px;"
+                    value="<%= user.phoneNo%>"required>
+            </div>
+            <br>
+            <div class="form-control">
+                <label for="password">OLD Password</label>
+                <br>
+                <input 
+                    type="text" 
+                    name="oldpassword" 
+                    id="oldpassword"
+                    style="height: 40px; width: 400px;"
+                    required>
+            </div>
+            <div class="form-control">
+                <label for="password">NEW Password</label>
+                <br>
+                <input 
+                    type="password" 
+                    name="password"
+                    pattern="^\S*$"
+                    style="height: 40px; width: 400px;"
+                    required>
+            </div>
+            <br>
+            
+            <input type="hidden" name="userId" value="<%=user._id%>">
+            <input type="hidden" name="hashedpassword" value="<%=user.password%>">
+            <button class="btn" type="submit">Submit</button>
+        </form>
+    </main>
+    <script>
+        document
+            .getElementById("name")
+            .addEventListener("keypress", function (event) {
+              var charCode = event.keyCode || event.which;
+              var charStr = String.fromCharCode(charCode);
+              if (!/[a-zA-Z\s]/.test(charStr)) {
+                event.preventDefault();
+              }
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+            var numberInput = document.getElementById('name');
+        
+            numberInput.addEventListener('input', function() {
+            var inputValue = this.value;
+            
+            // Limit to 3 digits
+            inputValue = inputValue.trimLeft();
+            inputValue = inputValue.slice(0, 20);
+            
+            // Update input value
+            this.value = inputValue;
+        });
+    });
+        document.addEventListener('DOMContentLoaded', function() {
+            var numberInput = document.getElementById('countryCode');
+        
+            numberInput.addEventListener('input', function() {
+            var inputValue = this.value;
+            
+            // Remove non-numeric characters
+            inputValue = inputValue.replace(/\D/g, '');
+            
+            // Limit to 3 digits
+            inputValue = inputValue.slice(0, 3);
+            
+            // Update input value
+            this.value = inputValue;
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+            var numberInput = document.getElementById('phoneNo');
+        
+            numberInput.addEventListener('input', function() {
+            var inputValue = this.value;
+            
+            // Remove non-numeric characters
+            inputValue = inputValue.replace(/\D/g, '');
+            
+            // Limit to 3 digits
+            inputValue = inputValue.slice(0, 11);
+            
+            // Update input value
+            this.value = inputValue;
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        var emailInput = document.getElementById('email');
+        var emailError = document.getElementById('emailError');
+        
+        emailInput.addEventListener('input', function() {
+            var email = emailInput.value;
+            
+            if (/^\d/.test(email)) {
+                emailError.textContent = 'Email address cannot start with a number';
+                clearEmailInput();
+                setTimeout(function() {
+                    emailError.textContent = '';
+                }, 2000); 
+            } else {
+                emailError.textContent = '';
+            }
+        });
+        function clearEmailInput() {
+            emailInput.value = '';
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+            var numberInput = document.getElementById('oldpassword');
+        
+            numberInput.addEventListener('input', function() {
+            var inputValue = this.value;
+            
+            // Limit to 3 digits
+            inputValue = inputValue.trimLeft();
+            inputValue = inputValue.slice(0, 15);
+            
+            // Update input value
+            this.value = inputValue;
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+            var numberInput = document.getElementById('password');
+        
+            numberInput.addEventListener('input', function() {
+            var inputValue = this.value;
+            
+            // Limit to 3 digits
+            inputValue = inputValue.trimLeft();
+            inputValue = inputValue.slice(0, 15);
+            
+            // Update input value
+            this.value = inputValue;
+        });
+    });
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            location.reload(true);
+        }
+    });
+  
+            </script>
+   
+</body>
+
+</html>
